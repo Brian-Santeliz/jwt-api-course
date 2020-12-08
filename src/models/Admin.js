@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const bcrypt = require("bcryptjs");
 
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   email: {
     type: String,
     trim: true,
@@ -19,13 +19,13 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-userSchema.pre("save", async function (next) {
+adminSchema.pre("save", async function (next) {
   const salt = await bcrypt.genSalt();
   this.password = await bcrypt.hash(this.password, salt);
   next();
 });
 
-userSchema.statics.login = async function (email, password) {
+adminSchema.statics.login = async function (email, password) {
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
@@ -37,6 +37,6 @@ userSchema.statics.login = async function (email, password) {
   throw Error("El Email es  incorrecto");
 };
 
-const User = mongoose.model("user", userSchema);
+const Admin = mongoose.model("admin", adminSchema);
 
-module.exports = User;
+module.exports = Admin;
