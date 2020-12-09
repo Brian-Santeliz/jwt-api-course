@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const profesorSchema = mongoose.Schema(
+const estudianteSchema = mongoose.Schema(
   {
     nombre: {
       type: String,
@@ -17,17 +17,11 @@ const profesorSchema = mongoose.Schema(
     cedula: {
       type: Number,
       trim: true,
-      unique: true,
       required: [true, "Ingrese la cédula"],
-    },
-    estudio: {
-      type: String,
-      trim: true,
-      required: [true, "Ingrese el grado de estudio"],
     },
   },
   {
     versionKey: false,
   }
 );
-module.exports = mongoose.model("Profesor", profesorSchema);
+module.exports = mongoose.model("Estudiante", estudianteSchema);
