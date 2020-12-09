@@ -34,23 +34,4 @@ const cursoSchema = mongoose.Schema(
   }
 );
 
-/* 
-SI NO FUNCIONA ASI CREAR ENTONCES
-1-) estudiantes:[{
-  nombre:{
-    type:string
-  },
-  cedula:{
-    type:Strin
-  }
-}]
-2-) estudiateSchema :{
-  nombre:string,
-  cedula:string,
-  apellido:string
-}
-estudiante:[estudianteSchema]
-
-
-*/
 module.exports = mongoose.model("Curso", cursoSchema);
