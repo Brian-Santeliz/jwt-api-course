@@ -16,7 +16,7 @@ module.exports = class ControllerEstudiante {
     const { id } = req.params;
     Estudiante.findById({ _id: id }).then((estudiante) => {
       if (!estudiante) {
-        return res.status(200).json("Estudiante no existe con este ID");
+        return res.status(200).json("Este ID de estudiante no existe");
       }
       return res.status(200).json({ msg: "Estudiante por ID", estudiante });
     });
@@ -24,7 +24,10 @@ module.exports = class ControllerEstudiante {
   deleteEstudiante(req, res) {
     const { id } = req.params;
     Estudiante.findByIdAndDelete({ _id: id })
-      .then(() => {
+      .then((estado) => {
+        if (!estado) {
+          return res.status(400).json("Este ID no corresponde a un estudiante");
+        }
         res.status(200).json("Estudiante eliminado");
       })
       .catch((e) => res.status(500).json(e));
