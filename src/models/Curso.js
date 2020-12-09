@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { definitivasSchema, fechaSchema } = require("../libs/schemaCursos");
 
 const cursoSchema = mongoose.Schema(
   {
@@ -17,20 +18,7 @@ const cursoSchema = mongoose.Schema(
       required: [true, "El Profesor es requerido"],
       lowercase: true,
     },
-    fechas: [
-      {
-        fechaInicio: {
-          type: String,
-          required: [true, "Fecha de inicio es requerido"],
-          trim: true,
-        },
-        fechaFin: {
-          type: String,
-          required: [true, "Fecha final es requerido"],
-          trim: true,
-        },
-      },
-    ],
+    fechas: [fechaSchema],
     estudiantes: [
       {
         required: [true, "Los id de estudiantes son requeridos"],
@@ -39,26 +27,7 @@ const cursoSchema = mongoose.Schema(
         trim: true,
       },
     ],
-    definitivas: [
-      {
-        calificacion: {
-          type: Number,
-          required: [true, "Las calificaciones son requeridas"],
-        },
-        nombre: {
-          type: String,
-          required: [true, "El nombre del estudiante es requerido"],
-          lowercase: true,
-          trim: true,
-        },
-        apellido: {
-          type: String,
-          required: [true, "El apellido del estudiante es requerido"],
-          lowercase: true,
-          trim: true,
-        },
-      },
-    ],
+    definitivas: [definitivasSchema],
   },
   {
     versionKey: false,
