@@ -18,6 +18,7 @@ const estudianteSchema = mongoose.Schema(
       type: Number,
       trim: true,
       required: [true, "Ingrese la cédula"],
+      unique: true,
     },
   },
   {

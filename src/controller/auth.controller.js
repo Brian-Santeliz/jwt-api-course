@@ -17,7 +17,7 @@ class ControllerAuth {
     } catch (error) {
       switch (error.code) {
         case 11000:
-          return res.status(500).json("Este usuario esta registado");
+          return res.status(500).json("Este Admin esta registado");
         default:
           res.status(500).json(error);
           return;

@@ -1,0 +1,10 @@
+const { Router } = require("express");
+const router = Router();
+const ControllerEstudiante = require("../controller/estudiante.controller");
+const controller = new ControllerEstudiante();
+router.get("/", controller.getEstudiante);
+router.post("/", controller.postEstudiante);
+router.get("/:id", controller.getEstudianteId);
+router.delete("/:id", controller.deleteEstudiante);
+router.put("/:id", controller.putController);
+module.exports = router;

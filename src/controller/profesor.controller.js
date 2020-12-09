@@ -1,10 +1,12 @@
-const { findByIdAndUpdate } = require("../models/Profesor");
 const Profesor = require("../models/Profesor");
 module.exports = class ControllerProfesor {
   getProfesor(req, res) {
     Profesor.find()
       .then((profesores) => {
-        res.status(200).json(profesores);
+        if (profesores.length !== 0) {
+          return res.status(200).json(profesores);
+        }
+        return res.status(200).json("Profesores no Agregados");
       })
       .catch((e) => {
         res.status(500).json(e);
@@ -25,7 +27,7 @@ module.exports = class ControllerProfesor {
     const { id } = req.params;
     Profesor.findByIdAndDelete({ _id: id })
       .then(() => {
-        res.status(201).json("eliminado");
+        res.status(200).json("Profesor Eliminado");
       })
       .catch((e) => res.status(500).json(e));
   }
