@@ -18,7 +18,7 @@ module.exports = class ControllerEstudiante {
     Estudiante.findById({ _id: id })
       .then((estudiante) => {
         if (!estudiante) {
-          return res.status(200).json("Este ID de estudiante no existe");
+          return res.status(400).json("Este ID de estudiante no existe");
         }
         return res.status(200).json({ msg: "Estudiante por ID", estudiante });
       })
