@@ -4,7 +4,7 @@ module.exports = class ControllerProfesor {
     Profesor.find()
       .then((profesores) => {
         if (profesores.length !== 0) {
-          return res.status(200).json(profesores);
+          return res.status(200).json({ Admin: req.adminEmail, profesores });
         }
         return res.status(200).json("Profesores no Agregados");
       })

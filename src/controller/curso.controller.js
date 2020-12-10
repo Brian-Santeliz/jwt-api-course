@@ -10,7 +10,7 @@ module.exports = class ControllerCurso {
         if (cursos.length === 0) {
           return res.status(200).json("No existen Cursos Registrados");
         }
-        return res.status(200).json(cursos);
+        return res.status(200).json({ Admin: req.adminEmail, cursos });
       })
       .catch((e) => {
         res.status(500).json(e);

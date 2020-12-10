@@ -9,7 +9,7 @@ class ControllerAuth {
     const { email, password } = req.body;
     try {
       const admin = await Admin.create({ email, password });
-      const token = createToken(admin._id);
+      const token = createToken(admin.email);
       return res
         .status(201)
         .header("auth-token", token)
@@ -28,7 +28,7 @@ class ControllerAuth {
     const { email, password } = req.body;
     try {
       const admin = await Admin.login(email, password);
-      const token = createToken(admin._id);
+      const token = createToken(admin.email);
       return res
         .status(200)
         .header("auth-token", token)

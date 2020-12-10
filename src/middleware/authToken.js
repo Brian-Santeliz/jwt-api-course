@@ -8,8 +8,8 @@ module.exports = class AuthToken {
         return res.status(401).json("No existe token");
       }
       const tokenDedoce = jwt.verify(tokenHeader, process.env.SECRET_KEY);
-      const { id } = tokenDedoce;
-      req.adminId = id;
+      const { email } = tokenDedoce;
+      req.adminEmail = email;
       next();
     } catch ({ message }) {
       if (message === "jwt expired") {
