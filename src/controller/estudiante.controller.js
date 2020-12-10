@@ -1,4 +1,5 @@
 const Estudiante = require("../models/Estudiante");
+const { handleError } = require("../libs/handleError");
 module.exports = class ControllerEstudiante {
   getEstudiante(req, res) {
     Estudiante.find()
@@ -43,13 +44,7 @@ module.exports = class ControllerEstudiante {
       await estudiante.save();
       res.status(201).json(estudiante);
     } catch (error) {
-      switch (error.code) {
-        case 11000:
-          return res.status(500).json(`Este Estudiante esta registado`);
-        default:
-          res.status(500).json({ msg: "EStudiante agregado", error });
-          return;
-      }
+      handleError(error, res, "Estudiante");
     }
   }
   async putController(req, res) {

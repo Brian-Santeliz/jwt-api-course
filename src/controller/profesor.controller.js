@@ -1,4 +1,6 @@
 const Profesor = require("../models/Profesor");
+const { handleError } = require("../libs/handleError");
+
 module.exports = class ControllerProfesor {
   getProfesor(req, res) {
     Profesor.find()
@@ -75,13 +77,7 @@ module.exports = class ControllerProfesor {
       await profesor.save();
       res.status(201).json({ msg: "Agregado profesor", profesor });
     } catch (error) {
-      switch (error.code) {
-        case 11000:
-          return res.status(500).json("Este Profesor esta registado");
-        default:
-          res.status(500).json(error);
-          return;
-      }
+      handleError(error, res, "Profesor");
     }
   }
 };

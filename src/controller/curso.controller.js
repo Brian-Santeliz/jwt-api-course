@@ -1,6 +1,6 @@
 const Curso = require("../models/Curso");
 const { buscarProfesor, buscarEstudiante } = require("../libs/cursosHelper");
-const { response } = require("express");
+const { handleError } = require("../libs/handleError");
 module.exports = class ControllerCurso {
   getCurso(req, res) {
     Curso.find()
@@ -37,13 +37,7 @@ module.exports = class ControllerCurso {
       await curso.save();
       res.status(201).json({ msg: "Curso Creado", curso });
     } catch (error) {
-      switch (error.code) {
-        case 11000:
-          return res.status(500).json("Este Curso se encuentra registado");
-        default:
-          res.status(500).json(error);
-          return;
-      }
+      handleError(error, res, "Curso");
     }
   }
   async getCursoId(req, res) {

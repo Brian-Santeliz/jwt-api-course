@@ -1,5 +1,6 @@
 const Admin = require("../models/Admin");
 const createToken = require("../libs/helper");
+const { handleError } = require("../libs/handleError");
 class ControllerAuth {
   async registerGetController(req, res) {
     const admins = await Admin.find().select({ password: 0, _id: 0, __v: 0 });
@@ -15,13 +16,7 @@ class ControllerAuth {
         .header("auth-token", token)
         .json("Registrado Admin!");
     } catch (error) {
-      switch (error.code) {
-        case 11000:
-          return res.status(500).json("Este Admin esta registado");
-        default:
-          res.status(500).json(error);
-          return;
-      }
+      handleError(error, res, "Admin");
     }
   }
   async loginController(req, res) {
