@@ -1,5 +1,4 @@
 const jwt = require("jsonwebtoken");
-
 module.exports = class AuthToken {
   static adminAccess(req, res, next) {
     try {
