@@ -3,8 +3,14 @@ const createToken = require("../libs/helper");
 const { handleError } = require("../libs/handleError");
 class ControllerAuth {
   async registerGetController(req, res) {
-    const admins = await Admin.find().select({ password: 0, _id: 0, __v: 0 });
-    res.json(admins);
+    try {
+      const admins = await Admin.find().select({ password: 0, _id: 0, __v: 0 });
+      if (admins.length === 0) {
+        return res.status(200).json("Admin no registrado");
+      }
+    } catch (error) {
+      return res.status(500).json(erro);
+    }
   }
   async registerController(req, res) {
     const { email, password } = req.body;
