@@ -15,12 +15,19 @@ module.exports = class ControllerEstudiante {
   }
   getEstudianteId(req, res) {
     const { id } = req.params;
-    Estudiante.findById({ _id: id }).then((estudiante) => {
-      if (!estudiante) {
-        return res.status(200).json("Este ID de estudiante no existe");
-      }
-      return res.status(200).json({ msg: "Estudiante por ID", estudiante });
-    });
+    Estudiante.findById({ _id: id })
+      .then((estudiante) => {
+        if (!estudiante) {
+          return res.status(200).json("Este ID de estudiante no existe");
+        }
+        return res.status(200).json({ msg: "Estudiante por ID", estudiante });
+      })
+      .catch((e) => {
+        if (e.kind === "ObjectId") {
+          return res.status(400).json("Estructura de ID No existe");
+        }
+        res.status(500).json(e);
+      });
   }
   deleteEstudiante(req, res) {
     const { id } = req.params;
@@ -51,12 +58,21 @@ module.exports = class ControllerEstudiante {
     const { id } = req.params;
     const { nombre, apellido, cedula } = req.body;
     try {
+      if (
+        nombre.trim() === "" ||
+        apellido.trim() === "" ||
+        cedula.trim() === ""
+      ) {
+        return res
+          .status(400)
+          .json("Todos los datos son necesarios para actualizar");
+      }
       const estudiante = await Estudiante.findByIdAndUpdate(
         { _id: id },
         { nombre, apellido, cedula },
         { new: true }
       );
-      res.status(201).json({ msg: "Actualizado", estudiante });
+      return res.status(201).json({ msg: "Actualizado", estudiante });
     } catch (error) {
       res.status(500).json(error);
     }
