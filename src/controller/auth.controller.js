@@ -8,6 +8,7 @@ class ControllerAuth {
       if (admins.length === 0) {
         return res.status(200).json("Admin no registrado");
       }
+	res.status(200).json({msg:"Administradores",admins})
     } catch (error) {
       return res.status(500).json(error);
     }
