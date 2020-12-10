@@ -1,6 +1,6 @@
 const Curso = require("../models/Curso");
 const { buscarProfesor, buscarEstudiante } = require("../libs/cursosHelper");
-const { handleError } = require("../libs/handleError");
+const { handleError, handleErrorId } = require("../libs/handleError");
 module.exports = class ControllerCurso {
   getCurso(req, res) {
     Curso.find()
@@ -51,10 +51,7 @@ module.exports = class ControllerCurso {
       }
       res.status(200).json(curso);
     } catch (error) {
-      if (error.kind === "ObjectId") {
-        return res.status(500).json("Este ID No corresponde a un curso");
-      }
-      res.status(500).json(error);
+      handleErrorId(error, res);
     }
   }
   async deleteCurso(req, res) {
@@ -68,7 +65,7 @@ module.exports = class ControllerCurso {
       }
       res.status(200).json("Curso eliminado correctamente");
     } catch (error) {
-      res.status(500).json(error);
+      handleErrorId(error, res);
     }
   }
   async putCurso(req, res) {
@@ -94,10 +91,12 @@ module.exports = class ControllerCurso {
         },
         { new: true }
       );
+      if (!cursoActualizado) {
+        return res.status(400).json("ID no registrado, no se puede actualizar");
+      }
       res.status(201).json({ msg: "Curso actualizado", cursoActualizado });
     } catch (error) {
-      console.log(error);
-      res.status(400).json(error);
+      handleErrorId(error, res);
     }
   }
 };
