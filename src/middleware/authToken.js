@@ -12,7 +12,7 @@ module.exports = class AuthToken {
       next();
     } catch ({ message }) {
       if (message === "jwt expired") {
-        res.status(403).json("El Token Expiró");
+        res.status(403).json("El Token Expiró, vuelve a iniciar sesión");
       } else {
         res.status(403).json("Este token es invalido");
       }

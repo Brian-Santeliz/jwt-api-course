@@ -55,7 +55,8 @@ module.exports = class ControllerEstudiante {
   }
   async putController(req, res) {
     const { id } = req.params;
-    const { nombre, apellido, cedula } = req.body;
+    let { nombre, apellido, cedula } = req.body;
+    cedula = String(cedula);
     try {
       if (
         nombre.trim() === "" ||
@@ -71,9 +72,12 @@ module.exports = class ControllerEstudiante {
         { nombre, apellido, cedula },
         { new: true }
       );
+      if (!estudiante) {
+        return res.status(400).json("ID no registrado, no se puede actualizar");
+      }
       return res.status(201).json({ msg: "Actualizado", estudiante });
     } catch (error) {
-      res.status(500).json(error);
+      handleErrorId(error, res);
     }
   }
 };

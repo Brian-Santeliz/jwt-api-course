@@ -58,6 +58,11 @@ module.exports = class ControllerProfesor {
             new: true,
           }
         );
+        if (!profesorActualizado) {
+          return res
+            .status(400)
+            .json("ID no registrado, no se puede actualizar");
+        }
         return res
           .status(201)
           .json({ msg: "Actualizado", profesorActualizado });
@@ -66,7 +71,7 @@ module.exports = class ControllerProfesor {
         .status(400)
         .json("Todos los datos son obligatorios para actualizar");
     } catch (error) {
-      res.status(500).json(error);
+      handleErrorId(error, res);
     }
   }
   async postProfesor(req, res) {
