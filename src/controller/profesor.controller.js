@@ -1,5 +1,5 @@
 const Profesor = require("../models/Profesor");
-const { handleError } = require("../libs/handleError");
+const { handleError, handleErrorId } = require("../libs/handleError");
 
 module.exports = class ControllerProfesor {
   getProfesor(req, res) {
@@ -23,7 +23,9 @@ module.exports = class ControllerProfesor {
         }
         res.status(200).json({ msg: "Profesor por ID", profesor });
       })
-      .catch((e) => res.status(500).json(e));
+      .catch((e) => {
+        handleErrorId(e, res);
+      });
   }
   deleteProfesor(req, res) {
     const { id } = req.params;
@@ -34,11 +36,14 @@ module.exports = class ControllerProfesor {
         }
         res.status(200).json("Profesor Eliminado");
       })
-      .catch((e) => res.status(500).json(e));
+      .catch((e) => {
+        handleErrorId(e, res);
+      });
   }
   async putProfesor(req, res) {
     const { id } = req.params;
-    const { nombre, apellido, cedula, estudio } = req.body;
+    let { nombre, apellido, cedula, estudio } = req.body;
+    cedula = String(cedula);
     try {
       if (
         nombre.trim() !== "" &&
@@ -61,7 +66,6 @@ module.exports = class ControllerProfesor {
         .status(400)
         .json("Todos los datos son obligatorios para actualizar");
     } catch (error) {
-      console.log(error);
       res.status(500).json(error);
     }
   }

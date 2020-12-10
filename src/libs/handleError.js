@@ -7,3 +7,11 @@ exports.handleError = (error, res, contexto) => {
       return;
   }
 };
+
+exports.handleErrorId = (e, res) => {
+  if (e.kind === "ObjectId") {
+    return res.status(400).json("Estructura de ID No existe");
+  } else {
+    res.status(500).json(e);
+  }
+};

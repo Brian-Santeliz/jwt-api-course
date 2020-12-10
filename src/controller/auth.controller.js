@@ -9,7 +9,7 @@ class ControllerAuth {
         return res.status(200).json("Admin no registrado");
       }
     } catch (error) {
-      return res.status(500).json(erro);
+      return res.status(500).json(error);
     }
   }
   async registerController(req, res) {

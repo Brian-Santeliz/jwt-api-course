@@ -1,5 +1,5 @@
 const Estudiante = require("../models/Estudiante");
-const { handleError } = require("../libs/handleError");
+const { handleError, handleErrorId } = require("../libs/handleError");
 module.exports = class ControllerEstudiante {
   getEstudiante(req, res) {
     Estudiante.find()
@@ -23,10 +23,7 @@ module.exports = class ControllerEstudiante {
         return res.status(200).json({ msg: "Estudiante por ID", estudiante });
       })
       .catch((e) => {
-        if (e.kind === "ObjectId") {
-          return res.status(400).json("Estructura de ID No existe");
-        }
-        res.status(500).json(e);
+        handleErrorId(e, res);
       });
   }
   deleteEstudiante(req, res) {
@@ -38,7 +35,9 @@ module.exports = class ControllerEstudiante {
         }
         res.status(200).json("Estudiante eliminado");
       })
-      .catch((e) => res.status(500).json(e));
+      .catch((e) => {
+        handleErrorId(e, res);
+      });
   }
   async postEstudiante(req, res) {
     const { nombre, apellido, cedula } = req.body;
