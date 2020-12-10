@@ -28,15 +28,18 @@ class ControllerAuth {
   async loginController(req, res) {
     const { email, password } = req.body;
     try {
-      const admin = await Admin.login(email, password);
+      if (email.trim() === "" || password.trim() === "") {
+        return res
+          .status(400)
+          .json("Todos los datos son necesarios para el login");
+      }
+      const admin = await Admin.login(email, password, res);
       const token = createToken(admin.email);
       return res
         .status(200)
         .header("auth-token", token)
         .json(`Bienvenido ${admin.email}`);
-    } catch (error) {
-      res.status(500).json(error.message);
-    }
+    } catch (error) {}
   }
 }
 

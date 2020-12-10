@@ -25,16 +25,17 @@ adminSchema.pre("save", async function (next) {
   next();
 });
 
-adminSchema.statics.login = async function (email, password) {
+adminSchema.statics.login = async function (email, password, res) {
   const user = await this.findOne({ email });
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     if (auth) {
       return user;
     }
-    throw Error("El Password es incorrecto");
+    res.status(401).json("El Password es incorrecto");
+    return;
   }
-  throw Error("El Email es  incorrecto");
+  return res.status(401).json("El Email es  incorrecto");
 };
 
 const Admin = mongoose.model("Admin", adminSchema);
